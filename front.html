@@ -4,16 +4,125 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Juego de Preguntas y Respuestas</title>
-    <style>
-        body{
-            text-align: center;
-        }
-    </style>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    #pregunta-container {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #puntuacion-container {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
 <body>
-    <h1>TRIVIADOS</h1>
-    <h3>¿Cuánto sabes de cultura general?</h3>
-    <button id="empezar">EMPEZAR</button>
+
+  <h1>Juego de Preguntas y Respuestas</h1>
+
+  <div id="pregunta-container"></div>
+
+  <div id="puntuacion-container"></div>
+
+  <button id="siguiente">Siguiente Pregunta</button>
+
+  <script>
+    const preguntas = [
+      {
+        pregunta: '¿Cuál es la capital de España?',
+        respuestas: ['París', 'Roma', 'Madrid'],
+        correcta: 'Madrid'
+      },
+      {
+        pregunta: '¿Cuál es el océano más grande?',
+        respuestas: ['Atlántico', 'Índico', 'Pacífico'],
+        correcta: 'Pacífico'
+      },
+      // Agrega más preguntas según sea necesario
+    ];
+
+    let preguntaActual = 0;
+    let puntuacion = 0;
+
+    const preguntaContainer = document.getElementById('pregunta-container');
+    const puntuacionContainer = document.getElementById('puntuacion-container');
+    const siguienteButton = document.getElementById('siguiente');
+
+    function mostrarPregunta() {
+      const pregunta = preguntas[preguntaActual];
+      const opcionesHTML = pregunta.respuestas.map(respuesta => `<button onclick="responder('${respuesta}')">${respuesta}</button>`).join(' ');
+
+      preguntaContainer.innerHTML = `
+        <h3>${pregunta.pregunta}</h3>
+        ${opcionesHTML}
+      `;
+    }
+
+      //Contador
+    function responder(respuesta) {
+      const pregunta = preguntas[preguntaActual];
+      if (respuesta === pregunta.correcta) {
+        puntuacion++;
+      }
+      siguientePregunta();
+    }
+
+    function siguientePregunta() {
+      preguntaActual++;
+      if (preguntaActual < preguntas.length) {
+        mostrarPregunta();
+      } else {
+        mostrarResultado();
+      }
+    }
+
+      //Función mostrar resultado
+    function mostrarResultado() {
+      preguntaContainer.innerHTML = '';
+      puntuacionContainer.innerHTML = `<p>Tu puntuación es: ${puntuacion} de ${preguntas.length}</p>`;
+      siguienteButton.style.display = 'none';
+    }
+
+    siguienteButton.addEventListener('click', siguientePregunta);
+
+   
+    mostrarPregunta();
+  </script>
 
 </body>
 </html>
