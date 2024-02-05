@@ -60,9 +60,12 @@
   <div id="puntuacion-container"></div>
 
   <button id="siguiente">Siguiente Pregunta</button>
+    <a href="/clasificacion"><button id="clasificacion">Clasificación</button></a>
+   
+    
 
   <script>
-    const preguntas = [
+    var preguntas = [
       {
         pregunta: '¿Cuál es la capital de España?',
         respuestas: ['París', 'Roma', 'Madrid'],
@@ -73,19 +76,24 @@
         respuestas: ['Atlántico', 'Índico', 'Pacífico'],
         correcta: 'Pacífico'
       },
-      // Agrega más preguntas según sea necesario
+    {
+        pregunta: '¿Cuál es la montaña más grande del mundo?',
+        respuestas: ['Teide', 'Everest', 'Aconcagua'],
+        correcta: 'Everest'
+      }
+      
     ];
 
     let preguntaActual = 0;
     let puntuacion = 0;
 
-    const preguntaContainer = document.getElementById('pregunta-container');
-    const puntuacionContainer = document.getElementById('puntuacion-container');
-    const siguienteButton = document.getElementById('siguiente');
+    var preguntaContainer = document.getElementById('pregunta-container');
+    var puntuacionContainer = document.getElementById('puntuacion-container');
+    var siguienteButton = document.getElementById('siguiente');
 
     function mostrarPregunta() {
-      const pregunta = preguntas[preguntaActual];
-      const opcionesHTML = pregunta.respuestas.map(respuesta => `<button onclick="responder('${respuesta}')">${respuesta}</button>`).join(' ');
+      var pregunta = preguntas[preguntaActual];
+      var opcionesHTML = pregunta.respuestas.map(respuesta => `<button onclick="responder('${respuesta}')">${respuesta}</button>`).join(' ');
 
       preguntaContainer.innerHTML = `
         <h3>${pregunta.pregunta}</h3>
@@ -95,7 +103,7 @@
 
       //Contador
     function responder(respuesta) {
-      const pregunta = preguntas[preguntaActual];
+      var pregunta = preguntas[preguntaActual];
       if (respuesta === pregunta.correcta) {
         puntuacion++;
       }

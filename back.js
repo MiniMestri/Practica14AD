@@ -32,10 +32,22 @@ conexion.connect(function(err){
 
 servidor.createServer(function(req, res) {
 res.writeHead(200, {'Content-Type': 'text/html'});
-  archivo.readFile('front.html', 'utf8', function(err, data) {
+    
+    switch(req.url){
+        case "/":
+            archivo.readFile('front.html', 'utf8', function(err, data) {
+            res.write(data);
+            
+            });
+            break;
+        case "/clasificacion":
+           archivo.readFile('clasificacion.html', 'utf8', function(err, data) {
+            res.write(data);
+           });
+               break;
+        default:  
+        res.end("ERROR")
+    }
       
-      res.write(data);
-      res.end();
-    });
  
 }).listen(8080)
