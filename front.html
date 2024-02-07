@@ -60,9 +60,7 @@
   <div id="puntuacion-container"></div>
 
   <button id="siguiente">Siguiente Pregunta</button>
-    <a href="/clasificacion"><button id="clasificacion">Clasificación</button></a>
-   
-    
+  <button id="clasificacion" onclick="enviarPuntuacion()">Clasificación</button>
 
   <script>
     var preguntas = [
@@ -76,20 +74,52 @@
         respuestas: ['Atlántico', 'Índico', 'Pacífico'],
         correcta: 'Pacífico'
       },
-    {
+      {
         pregunta: '¿Cuál es la montaña más grande del mundo?',
         respuestas: ['Teide', 'Everest', 'Aconcagua'],
         correcta: 'Everest'
+      },
+      {
+        pregunta: '¿Cuál es el país más poblado del mundo?',
+        respuestas: ['Rusia', 'China', 'India'],
+        correcta: 'China'
+      },
+      {
+        pregunta: '¿Quién inventó la bombilla?',
+        respuestas: ['Alexander Graham Bell ', 'Thomas Edison', 'Isaac Newton'],
+        correcta: 'Thomas Edison'
       }
-      
     ];
 
     let preguntaActual = 0;
-    let puntuacion = 0;
+    var puntuacion = 0;
 
     var preguntaContainer = document.getElementById('pregunta-container');
     var puntuacionContainer = document.getElementById('puntuacion-container');
     var siguienteButton = document.getElementById('siguiente');
+
+    function enviarPuntuacion() {
+      const nombre = prompt('Ingresa tu nombre:');
+      const data = { nombre, puntuacion };
+
+      const request = new XMLHttpRequest();
+      request.open('POST', 'http://localhost:8080/guardar-puntuacion', true);
+      request.setRequestHeader('Content-Type', 'application/json');
+
+      request.onload = function () {
+        if (request.status >= 200 && request.status < 400) {
+          console.log('Respuesta del servidor:', JSON.parse(request.responseText));
+        } else {
+          console.error('Error en la solicitud al servidor:', request.status, JSON.parse(request.responseText));
+        }
+      };
+
+      request.onerror = function () {
+        console.error('Error de red al enviar puntuación al servidor');
+      };
+
+      request.send(JSON.stringify(data));
+    }
 
     function mostrarPregunta() {
       var pregunta = preguntas[preguntaActual];
@@ -101,7 +131,6 @@
       `;
     }
 
-      //Contador
     function responder(respuesta) {
       var pregunta = preguntas[preguntaActual];
       if (respuesta === pregunta.correcta) {
@@ -119,7 +148,6 @@
       }
     }
 
-      //Función mostrar resultado
     function mostrarResultado() {
       preguntaContainer.innerHTML = '';
       puntuacionContainer.innerHTML = `<p>Tu puntuación es: ${puntuacion} de ${preguntas.length}</p>`;
@@ -128,9 +156,9 @@
 
     siguienteButton.addEventListener('click', siguientePregunta);
 
-   
     mostrarPregunta();
   </script>
 
 </body>
 </html>
+
