@@ -43,6 +43,7 @@ servidor.createServer(function (req, res) {
                 req.on('end', () => {
                     try {
                         const { nombre, puntuacion } = JSON.parse(data);
+                        
 
                         var sql = 'INSERT INTO clasificacion (nombre, puntuacion) VALUES (?, ?)';
                         var values = [nombre, puntuacion];

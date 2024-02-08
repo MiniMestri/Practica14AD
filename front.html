@@ -98,6 +98,7 @@
     var puntuacionContainer = document.getElementById('puntuacion-container');
     var siguienteButton = document.getElementById('siguiente');
 
+      //Conecta con el servidor "back.js" para enviarle la información
     function enviarPuntuacion() {
       const nombre = prompt('Ingresa tu nombre:');
       const data = { nombre, puntuacion };
@@ -109,6 +110,7 @@
       request.send(JSON.stringify(data));
     }
 
+      // Muestra la pregunta de manera estética y guarda la información en formato cadena
     function mostrarPregunta() {
       var pregunta = preguntas[preguntaActual];
       var opcionesHTML = pregunta.respuestas.map(respuesta => `<button onclick="responder('${respuesta}')">${respuesta}</button>`).join(' ');
@@ -119,6 +121,7 @@
       `;
     }
 
+      //Recoge la posición del array para mostrar la información de la pregunta y si es correcta aumenta el contador, si no pasa a la siguiente
     function responder(respuesta) {
       var pregunta = preguntas[preguntaActual];
       if (respuesta === pregunta.correcta) {
@@ -127,6 +130,7 @@
       siguientePregunta();
     }
 
+    //Función para pasar la pregunta y si ha llegado alfinal del array, muestra el resultado
     function siguientePregunta() {
       preguntaActual++;
       if (preguntaActual < preguntas.length) {
@@ -136,6 +140,7 @@
       }
     }
 
+      //Muestra el resultado por pantalla e manera estética
     function mostrarResultado() {
       preguntaContainer.innerHTML = '';
       puntuacionContainer.innerHTML = `<p>Tu puntuación es: ${puntuacion} de ${preguntas.length}</p>`;
