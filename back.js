@@ -27,11 +27,6 @@ servidor.createServer(function (req, res) {
                     res.write(data);
                     res.end();
                 });
-            } else if (pathname === "/clasificacion") {
-                archivo.readFile('clasificacion.html', 'utf8', function (err, data) {
-                    res.write(data);
-                    res.end();
-                });
             } else {
                 res.end("ERROR");
             }
@@ -49,21 +44,21 @@ servidor.createServer(function (req, res) {
                     try {
                         const { nombre, puntuacion } = JSON.parse(data);
 
-                        const sql = 'INSERT INTO clasificacion (nombre, puntuacion) VALUES (?, ?)';
-                        const values = [nombre, puntuacion];
+                        var sql = 'INSERT INTO clasificacion (nombre, puntuacion) VALUES (?, ?)';
+                        var values = [nombre, puntuacion];
 
                         conexion.query(sql, values, (err, result) => {
                             if (err) {
-                                console.error('Error al insertar en MySQL:', err);
+                                console.error('Error al insertar');
                                 res.statusCode = 500;
                                 res.end(JSON.stringify({ error: 'Error interno del servidor' }));
                             } else {
-                                console.log('Puntuación guardada en MySQL:', result);
+                                console.log('Puntuación guardada');
                                 res.end(JSON.stringify({ message: 'Puntuación guardada exitosamente' }));
                             }
                         });
                     } catch (error) {
-                        console.error('Error al analizar datos JSON:', error);
+                        console.error('Error al analizar datos JSON:');
                         res.statusCode = 400;
                         res.end(JSON.stringify({ error: 'Formato JSON no válido' }));
                     }
